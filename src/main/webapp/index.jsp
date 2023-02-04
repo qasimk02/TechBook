@@ -2,31 +2,35 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<meta name="viewport" content="width-device-width, initial-scale=1.0">
-<!-- Botstrap cdn -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-	crossorigin="anonymous">
-<!-- Font Awesome css -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/index.css">
-<title>TechBook | Qasim</title>
+	<meta charset="ISO-8859-1">
+	<meta name="viewport" content="width-device-width, initial-scale=1.0">
+	<!-- Botstrap cdn -->
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+		crossorigin="anonymous">
+	<!-- Font Awesome css -->
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/index.css">
+	<title>TechBook | Qasim</title>
 </head>
+
 <body>
+	<!-- Navbar -->
 	<%@ include file="navbar.jsp"%>
-	<!-- Body -->
-	<div class="container-fluid p-0 m-0" style="position: relative;">
+
+	<!-- Poster -->
+	<div class="poster container-fluid p-0 m-0">
 		<div class="jumbotron">
-			<img src="img/bodyImg.jfif" class="img-fluid" alt="blog">
-			<div class="container">
-				<h2 class="bodyImgHeader opacity-75">
+			<!--  <img src="img/bodyImg.jfif" class="img-fluid" alt="blog"> -->
+			<div class="container poster-content">
+				<h2 class="poster-header opacity-75">
 					Tech<span style="color: red;">B</span>ook - A blog (a truncation of
 					"weblog") is an informational website published on the World Wide
 					Web consisting of discrete, often informal diary-style text entries
@@ -34,10 +38,9 @@
 					order so that the most recent post appears first, at the top of the
 					web page.
 				</h2>
-				<div class="row bodyImgSignup">
-					<div class="col-md-4 col-lg-2">
-						<a class="btn btn-outline-light btn-block" href="#">Register</a>
-					</div>
+				<div class="poster-signup-btn d-flex gap-1">
+					<a class="btn btn-outline-light btn-block" href="signin.jsp">Startit's free</a> 
+					<a class="btn btn-outline-light btn-block" href="signup.jsp">SignIn</a>
 				</div>
 			</div>
 		</div>
@@ -51,10 +54,10 @@
 				<div class="card">
 					<!-- <img src="..." class="card-img-top" alt="...">-->
 					<div class="card-body">
-						<h5 class="card-title">Card title</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
-						<a href="#" class="btn btn-primary">Go somewhere</a>
+						<h5 class="card-title">Java</h5>
+						<p class="card-text">Java is a high-level, class-based,
+						 object-oriented programming which widely used today in app development.</p>
+						<a href="#" class="btn btn-primary">Java</a>
 					</div>
 				</div>
 			</div>
@@ -62,10 +65,11 @@
 				<div class="card">
 					<!-- <img src="..." class="card-img-top" alt="...">-->
 					<div class="card-body">
-						<h5 class="card-title">Card title</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
-						<a href="#" class="btn btn-primary">Go somewhere</a>
+						<h5 class="card-title">Python</h5>
+						<p class="card-text">Python is a high-level, 
+						general-purpose programming language which is widely 
+						used in Machine Learning</p>
+						<a href="#" class="btn btn-primary">Python</a>
 					</div>
 				</div>
 			</div>
@@ -73,10 +77,11 @@
 				<div class="card">
 					<!-- <img src="..." class="card-img-top" alt="...">-->
 					<div class="card-body">
-						<h5 class="card-title">Card title</h5>
-						<p class="card-text">Some quick example text to build on the
-							card title and make up the bulk of the card's content.</p>
-						<a href="#" class="btn btn-primary">Go somewhere</a>
+						<h5 class="card-title">Javascript</h5>
+						<p class="card-text">JavaScript is a programming language 
+						that is one of the core technologies of the World Wide Web, 
+						alongside HTML and CSS. </p>
+						<a href="#" class="btn btn-primary">Javascript</a>
 					</div>
 				</div>
 			</div>
