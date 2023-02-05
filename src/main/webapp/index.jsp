@@ -39,8 +39,8 @@
 					web page.
 				</h2>
 				<div class="poster-signup-btn d-flex gap-1">
-					<a class="btn btn-outline-light btn-block" href="signin.jsp">Startit's free</a> 
-					<a class="btn btn-outline-light btn-block" href="signup.jsp">SignIn</a>
+					<a class="btn btn-outline-light btn-block" href="register.jsp"><i class="fa fa-user-plus"></i> Start it's free</a> 
+					<a class="btn btn-outline-light btn-block" href="login.jsp"><i class="fa fa-user-circle fa-spin"></i> SignIn</a>
 				</div>
 			</div>
 		</div>

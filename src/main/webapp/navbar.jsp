@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md sticky-top navbar-dark primary-color">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><i class="fa fa-book"></i> Tech<span style="color:red;">B</span>ook</a>
+    <a class="navbar-brand" href="index.jsp"><i class="fa fa-book"></i> Tech<span style="color:red;">B</span>ook</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -23,10 +23,10 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="signin.jsp"><i class="fa fa-user"></i> LogIn</a>
+          <a class="nav-link active" href="login.jsp"><i class="fa fa-user"></i> LogIn</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="signup.jsp"><i class="fa fa-user-plus"></i> Register</a>
+          <a class="nav-link active" href="register.jsp"><i class="fa fa-user-plus"></i> Register</a>
         </li>
       </ul>
       <form class="d-flex">

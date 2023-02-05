@@ -1,59 +1,96 @@
 @charset "ISO-8859-1";
-*{
-	margin:0;
-	padding:0;
-	box-sizing:border-box;
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	overflow-x: hidden;
 }
 /* Navbar designing */
-.navbar{
-	width:100%;
+.navbar {
+	width: 100%;
 	padding: 15px 5px;
 }
-.primary-color{
-	background-color:#34495e;
+
+.primary-color {
+	background-color: #34495e;
 }
-.navbar-brand{ 
-	font-weight:bold;
-	font-size:1.6rem;
+
+.navbar-brand {
+	font-weight: bold;
+	font-size: 1.6rem;
 	padding: 0 30px;
-	letter-spacing:1px;
+	letter-spacing: 1px;
 }
-.navbar ul li a:hover{
-	color:wheat;
+
+.navbar a:hover {
+	color: wheat;
 }
 
 /* Poster designing */
-.poster{
-	height:65vh;
-	background:#34495e;
-	position:relative;
+.poster {
+	height: 80vh;
+	background: #34495e;
+	position: relative;
 	/*clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 95%, 59% 100%, 26% 91%, 0 96%, 0 0);*/
-	background-image:url('../img/bodyImg.jfif');
-	background-repeat:no-repeat;
-	background-size:cover;
-}
-.poster-content{
-	position:absolute;
-	top:40%;
-	left:15%;
-}
-.poster-header{
-	color:white;
-	width:60vw;
-	font-size:1.5vw;
-	letter-spacing:1.3px;
-  	text-align: justify;
+	background-image: url('../img/bodyImg.jfif');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
-.poster-signup-btn a{
-	text-decoration:none; 
-	color:white;
-	font-size:1vw;
+.poster-content {
+	position: absolute;
+	top: 40%;
+	left: 15%;
+}
+
+.poster-header {
+	color: white;
+	width: 60vw;
+	font-size: 1.5vw;
+	letter-spacing: 1.3px;
+	text-align: justify;
+}
+
+.poster-signup-btn a {
+	text-decoration: none;
+	color: white;
+	font-size: 1vw;
 }
 
 /* Sign Signup design */
-.bg-img{
-	background-image:url('../img/bodyImg.jfif');
-	background-repeat:no-repeat;
-	background-size:cover;
+.bg-img {
+	background-image: url('../img/bodyImg.jfif');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+@media screen and (max-width:1000px) {
+	.poster {
+		height: 60vh;
+	}
+	.poster-content {
+		top: 45%;
+	}
+}
+
+@media screen and (max-width:750px) {
+	.poster {
+		height: 65vh;
+	}
+	.poster-content {
+		top: 50%;
+	}
+}
+
+@media screen and (max-width:600px) {
+	.poster {
+		height: 50vh;
+	}
+	.poster-content {
+		top: 50%;
+	}
 }
