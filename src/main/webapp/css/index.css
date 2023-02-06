@@ -9,14 +9,14 @@
 body {
 	overflow-x: hidden;
 }
+.primary-color {
+	background-color: #34495e;
+}
 /* Navbar designing */
 .navbar {
 	width: 100%;
 	padding: 15px 5px;
-}
-
-.primary-color {
-	background-color: #34495e;
+	color:white;
 }
 
 .navbar-brand {
@@ -24,19 +24,32 @@ body {
 	font-size: 1.6rem;
 	padding: 0 30px;
 	letter-spacing: 1px;
+	color:white;
 }
-
-.navbar a:hover {
+.navbar-brand:hover{
+	color:white;
+}
+.navbar ul li a {
+	color: white;
+}
+.navbar .dropdown-menu li a {
+	color: black;
+}
+.navbar .dropdown-menu li a:hover {
+	color: rgba(0,0,0,0.6);
+}
+.navbar ul li a:hover {
 	color: wheat;
 }
-
+.navbar-toogler{
+	color:white;
+}
 /* Poster designing */
 .poster {
 	height: 80vh;
 	background: #34495e;
 	position: relative;
-	/*clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 95%, 59% 100%, 26% 91%, 0 96%, 0 0);*/
-	background-image: url('../img/bodyImg.jfif');
+	background-image: url('../img/bannerbg.jpg');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -63,7 +76,7 @@ body {
 
 /* Sign Signup design */
 .bg-img {
-	background-image: url('../img/bodyImg.jfif');
+	background-image: url('../img/bannerbg.jpg');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }

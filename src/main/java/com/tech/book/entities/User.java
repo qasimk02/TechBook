@@ -8,6 +8,7 @@ public class User {
 	private String gender;
 	private String about;
 	private String dateTime;
+	private String profile;
 	
 	public User() {
 		
@@ -38,6 +39,17 @@ public class User {
 		this.gender = gender;
 		this.about = about;
 		this.dateTime = dateTime;
+	}
+	public User(int id, String name, String email, String password, String gender, String about, String dateTime,String profile) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.gender = gender;
+		this.about = about;
+		this.dateTime = dateTime;
+		this.profile = profile;
 	}
 	
 	public int getId() {
@@ -81,6 +93,12 @@ public class User {
 	}
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
+	}
+	public String getProfile() {
+		return profile;
+	}
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 	
 	

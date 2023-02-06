@@ -10,7 +10,7 @@ public class ConnectionProvider {
 			
 			if(con==null) {
 				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost/qasimdb","root","root");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/techbook","root","Mdqasim@786k");
 			}
 			
 		}catch(Exception e) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import com.tech.book.helper.ConnectionProvider;
 /**
  * Servlet implementation class RegisterServlet
  */
+@MultipartConfig
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,10 +52,9 @@ public class RegisterServlet extends HttpServlet {
 			//create Userdao object
 			UserDao dao = new UserDao(ConnectionProvider.getConnection());
 			if(dao.saveUser(user)) {
-				out.println("<h2>done</h2>");
-				out.println(name+"\n"+email+"\n"+password+"\n"+gender+"\n"+about);
+				out.println("done");
 			}else {
-				out.println("<h2>error</h2>");
+				out.println("error");
 			}
 			
 		}
