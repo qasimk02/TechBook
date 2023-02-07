@@ -54,17 +54,23 @@ public class EditServlet extends HttpServlet {
 		user.setEmail(updatedEmail);
 		user.setPassword(updatedPassword);
 		user.setAbout(updatedAbout);
+		String oldProfile = user.getProfile();
 		user.setProfile(updatedProfileName);
 		
 		//update into database
 		UserDao dao = new UserDao(ConnectionProvider.getConnection());
 		if(dao.updateUser(user)) {
 			@SuppressWarnings("deprecation")
+			String OldProfilePath = request.getRealPath("/")+"pics"+File.separator+oldProfile;
+			@SuppressWarnings("deprecation")
 			String path = request.getRealPath("/")+"pics"+File.separator+user.getProfile();
-			//deleting the image from pics
-			Helper.deleteFile(path);
 			
-			//saving updated profile pic to pics
+			//deleting the image from pics
+			if(!oldProfile.equals("default.png")) {
+				Helper.deleteFile(OldProfilePath);
+			}
+//          F:\1_Programming\Java_complete\Jsp and Servlet\Code\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps
+			//Saving updated profile pic to pics
 			if(Helper.saveFile(part.getInputStream(), path)) {
 				out.println("Profile updated successfully");
 				Message msg = new Message("Profile Updated Successfully","success","alert-success");

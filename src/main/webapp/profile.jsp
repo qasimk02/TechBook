@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page import="com.tech.book.helper.ConnectionProvider"%>
 <%@ page import="com.tech.book.entities.Message"%>
 <%@ page import="com.tech.book.entities.User"%>
+<%@ page import="com.tech.book.entities.Category"%>
+<%@ page import="com.tech.book.dao.PostDao"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ page errorPage="errorPage.jsp"%>
 <%
 User user = (User) session.getAttribute("currentUser");
@@ -55,11 +59,14 @@ if (user == null) {
 							<li><a class="dropdown-item" href="#">Updates</a></li>
 							<li><a class="dropdown-item" href="#">DataStructures</a></li>
 						</ul></li>
+					<li class="nav-item"><a class="nav-link active"
+						data-bs-toggle="modal" data-bs-target="#add-post-modal" href="#!"><i
+							class="fa fa-plus-square"></i> Post</a></li>
 				</ul>
 				<ul class="navbar-nav mr-right">
 					<!-- Trigger profile modal -->
-					<li class="nav-item"><a class="nav-link active" href="#!"
-						data-bs-toggle="modal" data-bs-target="#profileModal"><i
+					<li class="nav-item"><a class="nav-link active"
+						data-bs-toggle="modal" data-bs-target="#profile-modal" href="#!"><i
 							class="fa fa-user-circle"></i> <span><%=user.getName()%></span></a></li>
 					<li class="nav-item"><a class="nav-link active"
 						href="LogoutServlet"><i class="fa fa-sign-out"></i> Logout</a></li>
@@ -86,7 +93,7 @@ if (user == null) {
 	<!-- Profile Modal -->
 
 	<!-- Modal -->
-	<div class="modal fade" id="profileModal" tabindex="-1"
+	<div class="modal fade" id="profile-modal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -190,6 +197,69 @@ if (user == null) {
 
 	<!-- End of Profile Modal -->
 
+
+	<!-- Post Modal -->
+
+	<div class="modal fade" id="add-post-modal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header primary-color text-white">
+					<h5 class="modal-title" id="exampleModalLabel">
+						Tech<span style="color: red">B</span>ook
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<h6 class="text-center">Add your Post..</h6>
+					<hr>
+					<form id="add-post-form" action="AddPostServlet" method="post"
+						enctype="multipart/form-data" autocomplete="off"><!-- Autocomplete is off for this form -->
+						<div class="form-group mb-1">
+							<select class="form-control" name="cId">
+								<option selected disabled>---Select Your Category---</option>
+								<%
+								PostDao pdao = new PostDao(ConnectionProvider.getConnection());
+								ArrayList<Category> list = pdao.getAllCategories();
+								for (Category c : list) {
+								%>
+								<option value="<%=c.getcId()%>"><%=c.getcName()%></option>
+								<%
+								}
+								%>
+							</select>
+						</div>
+						<div class="form-group mb-1">
+							<input required class="form-control" name="postTitle" type="text"
+								placeholder="Enter your post Title" />
+						</div>
+						<div class="form-group mb-1">
+							<textarea class="form-control" name="postContent"
+								placeholder="Enter your post Content" style="height: 200px"></textarea>
+						</div>
+						<div class="form-group mb-1">
+							<textarea class="form-control" name="postCode"
+								placeholder="Enter your post Code(if any)" style="height: 200px"></textarea>
+						</div>
+						<div class="form-group mb-1">
+							<input class="form-control" type="file" name="postProfile" />
+						</div>
+						<div class="form-group text-center mt-2">
+							<button id="submit-btn" type="submit" class="btn btn-primary primary-color">Post</button>
+						</div>
+					</form>
+				</div>
+				<!-- No need of modal footer -->
+			</div>
+		</div>
+	</div>
+
+	<!-- End of Post Modal -->
+
+
+
+
 	<!-- Scripts -->
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"
 		integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
@@ -202,6 +272,7 @@ if (user == null) {
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
 		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
 		crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 		$(document).ready(function() {
 			let isEditable = false;
@@ -219,6 +290,36 @@ if (user == null) {
 				}
 			})
 		})
+	</script>
+	<!-- Add post Asynchroniously through javascript -->
+	<script>
+		$(document).ready(function() {
+			$("#add-post-form").on("submit", function(event) {
+				event.preventDefault();
+
+				let form = new FormData(this);
+				$.ajax({
+					url : 'AddPostServlet',
+					type : 'POST',
+					data : form,
+					success : function(data, textStatus, jqXHR) {
+						if(data.trim()==='done'){
+							swal("Good Job","Uploaded succesfully","success")
+							.then((value) => {
+							 	window.location = 'profile.jsp';
+							});
+						}else{
+							swal("Error!!","Something went wrong! Try again...","error");
+						}
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						swal("Error!!","Something went wrong! Try again...","error");
+					},
+					processData : false,
+					contentType : false
+				})
+			})
+		});
 	</script>
 </body>
 </html>
