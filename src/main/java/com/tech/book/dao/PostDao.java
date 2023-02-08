@@ -7,6 +7,7 @@ import java.util.List;
 import com.tech.book.entities.Category;
 import com.tech.book.entities.Post;
 
+@SuppressWarnings("deprecation")
 public class PostDao {
 	private Connection con;
 
@@ -64,6 +65,7 @@ public class PostDao {
 		return isPostUploaded;
 	}
 
+	
 	public List<Post> getAllPost() {
 		List<Post> list = new ArrayList<>();
 
@@ -79,7 +81,7 @@ public class PostDao {
 				String pContent = rs.getString("pContent");
 				String pCode = rs.getString("pCode");
 				String pPic = rs.getString("pPic");
-				String pDate = rs.getString("pDate");
+				String pDate = rs.getTimestamp("pDate").toLocaleString();
 				int catId = rs.getInt("catId");
 				int userId = rs.getInt("userId");
 
@@ -113,7 +115,7 @@ public class PostDao {
 				String pContent = rs.getString("pContent");
 				String pCode = rs.getString("pCode");
 				String pPic = rs.getString("pPic");
-				String pDate = rs.getString("pDate");
+				String pDate = rs.getTimestamp("pDate").toLocaleString();
 				int userId = rs.getInt("userId");
 
 				Post post = new Post(pId, pTitle, pContent, pCode, pPic, pDate, catId, userId);
@@ -146,7 +148,7 @@ public class PostDao {
 				String pContent = rs.getString("pContent");
 				String pCode = rs.getString("pCode");
 				String pPic = rs.getString("pPic");
-				String pDate = rs.getString("pDate");
+				String pDate = rs.getTimestamp("pDate").toLocaleString();
 				int catId = rs.getInt("catId");
 
 				Post post = new Post(pId, pTitle, pContent, pCode, pPic, pDate, catId, userId);
@@ -160,5 +162,33 @@ public class PostDao {
 		}
 
 		return list;
+	}
+	
+	public Post getPostByPostId(int pId) {
+		Post post = null;
+
+		try {
+
+			String query = "select * from posts where pId=?";
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pId);
+			ResultSet rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				String pTitle = rs.getString("pTitle");
+				String pContent = rs.getString("pContent");
+				String pCode = rs.getString("pCode");
+				String pPic = rs.getString("pPic");
+				String pDate = rs.getTimestamp("pDate").toLocaleString();
+				int catId = rs.getInt("catId");
+				int userId = rs.getInt("userId");
+				post = new Post(pId, pTitle, pContent, pCode, pPic, pDate, catId, userId);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return post;
 	}
 }

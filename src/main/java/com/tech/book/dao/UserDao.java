@@ -31,6 +31,7 @@ public class UserDao {
 		}
 		return f;
 	}
+	@SuppressWarnings("deprecation")
 	public User getUserByEmailAndPassword(String email,String password) {
 		User user = null;
 		try {
@@ -51,7 +52,7 @@ public class UserDao {
 				user.setPassword(rs.getString("password"));
 				user.setGender(rs.getString("gender"));
 				user.setAbout(rs.getString("about"));
-				user.setDateTime(rs.getString("rdate"));
+				user.setDateTime(rs.getTimestamp("rdate").toLocaleString());
 				user.setProfile(rs.getString("profile"));
 			}
 		}catch(Exception e) {
