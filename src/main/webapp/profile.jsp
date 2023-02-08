@@ -4,14 +4,20 @@
 <%@ page import="com.tech.book.entities.Message"%>
 <%@ page import="com.tech.book.entities.User"%>
 <%@ page import="com.tech.book.entities.Category"%>
+<%@ page import="com.tech.book.entities.Post"%>
 <%@ page import="com.tech.book.dao.PostDao"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
 <%@ page errorPage="errorPage.jsp"%>
 <%
 User user = (User) session.getAttribute("currentUser");
 if (user == null) {
 	response.sendRedirect("login.jsp");
 }
+%>
+<!-- getting postdao object which is used at multiple places in this page-->
+<%
+PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 %>
 <!DOCTYPE html>
 <html>
@@ -30,6 +36,7 @@ if (user == null) {
 <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+
 	<!-- Navbar -->
 
 	<nav class="navbar navbar-expand-md sticky-top primary-color">
@@ -89,6 +96,45 @@ if (user == null) {
 	session.removeAttribute("msg");
 	}
 	%>
+
+	<!-- Page main content -->
+
+	<div class="container-fluid">
+		<div class="row mt-2">
+			<!-- first col -->
+			<div class="col-md-3">
+				<!-- categories -->
+				<div class="list-group">
+					<a href="#" onClick="getPosts(0,this,false)"
+						class="c-link list-group-item list-group-item-action active">
+						All Posts</a> <a href="#" onClick="getPosts(<%=user.getId()%>,this,true)"
+						class="c-link list-group-item list-group-item-action active">
+						My Posts</a>
+					<%
+					ArrayList<Category> list = pdao.getAllCategories();
+					for (Category cc : list) {
+					%>
+					<a href="#" onClick="getPosts(<%=cc.getcId()%>,this,false)"
+						class="c-link list-group-item list-group-item-action"><%=cc.getcName()%></a>
+					<%
+					}
+					%>
+				</div>
+			</div>
+
+			<!-- second col -->
+			<!-- blogs details -->
+			<div class="col-md-9">
+				<div class="container text-center" id="loader">
+					<i class="fa fa-refresh fa-4x fa-spin"></i>
+					<h3>Please wait...</h3>
+				</div>
+				<div class="container-fluid" id="postContainer"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- End of main content -->
 
 	<!-- Profile Modal -->
 
@@ -215,13 +261,13 @@ if (user == null) {
 					<h6 class="text-center">Add your Post..</h6>
 					<hr>
 					<form id="add-post-form" action="AddPostServlet" method="post"
-						enctype="multipart/form-data" autocomplete="off"><!-- Autocomplete is off for this form -->
+						enctype="multipart/form-data" autocomplete="off">
+						<!-- Autocomplete is off for this form -->
 						<div class="form-group mb-1">
 							<select class="form-control" name="cId">
 								<option selected disabled>---Select Your Category---</option>
+								<!-- fetched the list from getAllCategories method of PostDao class above in main page content -->
 								<%
-								PostDao pdao = new PostDao(ConnectionProvider.getConnection());
-								ArrayList<Category> list = pdao.getAllCategories();
 								for (Category c : list) {
 								%>
 								<option value="<%=c.getcId()%>"><%=c.getcName()%></option>
@@ -246,7 +292,8 @@ if (user == null) {
 							<input class="form-control" type="file" name="postProfile" />
 						</div>
 						<div class="form-group text-center mt-2">
-							<button id="submit-btn" type="submit" class="btn btn-primary primary-color">Post</button>
+							<button id="submit-btn" type="submit"
+								class="btn btn-primary primary-color">Post</button>
 						</div>
 					</form>
 				</div>
@@ -320,6 +367,30 @@ if (user == null) {
 				})
 			})
 		});
+	</script>
+	<!-- loading post asynchronously -->
+	<script>
+		function getPosts(id,temp,isUser){
+			$("#loader").show();
+			$("#postContainer").hide();
+			
+			$(".c-link").removeClass('active');
+			
+			$.ajax({
+				url: "loadPosts.jsp",
+				data: {id:id,isUser:isUser},
+				success: function(data, textStatus, jqXHR){
+					$("#loader").hide();
+					$("#postContainer").show();
+					$("#postContainer").html(data);
+					$(temp).addClass('active');
+				}
+			})
+		}
+		$(document).ready(function(){
+			let allPostRef = $(".c-link")[0];
+			getPosts(0,allPostRef);
+		})
 	</script>
 </body>
 </html>
