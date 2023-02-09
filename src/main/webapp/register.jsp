@@ -84,7 +84,7 @@
 									</div>
 									<div class="text-center">
 										<button type="submit" id="submit-btn"
-											class="btn btn-outline-primary primary-color text-white">Register</button>
+											class="btn btn-outline-primary primary-color">Register</button>
 									</div>
 								</form>
 							</div>

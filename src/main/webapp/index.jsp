@@ -124,7 +124,7 @@
 	</div>
 	<!-- footer -->
 
-	<div class="mt-5" style="color: white;">
+	<div class="mt-5">
 		<footer class="nb-footer primary-color" style="padding: 10px;">
 			<div class="row">
 				<div class="col-sm-12">
@@ -132,20 +132,17 @@
 						<div class="social-media">
 							<ul class="list-inline d-flex">
 								<li class="mx-5"><a href="http://www.nextbootstrap.com/"
-									title=""><i class="fa fa-facebook"></i></a></li>
+									style="color: white;" title=""><i class="fa fa-facebook"></i></a></li>
 								<li class="mx-5"><a href="http://www.nextbootstrap.com/"
-									title=""><i class="fa fa-twitter"></i></a></li>
+									style="color: white;" title=""><i class="fa fa-twitter"></i></a></li>
 								<li class="mx-5"><a href="http://www.nextbootstrap.com/"
-									title=""><i class="fa fa-google-plus"></i></a></li>
+									style="color: white;" title=""><i class="fa fa-google-plus"></i></a></li>
 								<li class="mx-5"><a href="http://www.nextbootstrap.com/"
-									title=""><i class="fa fa-linkedin"></i></a></li>
+									style="color: white;" title=""><i class="fa fa-linkedin"></i></a></li>
 							</ul>
 						</div>
-						<p>Bootstrap Footer example snippets with CSS, Javascript and
-							HTML. Code example of bootstrap-3 footer using HTML, Javascript,
-							jQuery, and CSS. 5 Beautiful and Responsive Footer Templates. Pin
-							a fixed-height footer to the bottom of the viewport in desktop
-							browsers with this custom HTML and CSS.</p>
+						<p>This website is for the people who are interested in Technology and here you can get
+						blog related to Latest updates on technology Hope you will enjoy.Give your valuable comment..</p>
 					</div>
 				</div>
 				<hr>
@@ -200,9 +197,9 @@
 				<div class="col-md-3 col-sm-6">
 					<div class="footer-info-single">
 						<h2 class="title">Payment</h2>
-						<p>Sample HTML page with Twitter's Bootstrap. Code example of
-							Easy Sticky Footer using HTML, Javascript, jQuery, and CSS. This
-							bootstrap tutorial covers all the major elements of responsive</p>
+						<p>This website is for the people who are interested in Technology and here you can get
+						blog related to Latest updates on technology Hope you will enjoy.Give your valuable comment.
+						</p>
 
 					</div>
 				</div>
@@ -211,10 +208,10 @@
 			<section class="copyright text-center">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-6">
-							<p>Copyright © 2017. Your Company.</p>
+						<div class="col-sm-6 offset-sm-3">
+							<p>Copyright © 2023. TechBook.</p>
+							<p>Developed by <a href="https://github.com/qasimk02" target="_blank" style="text-decoration:none;color:white;">Qasim</a></p>
 						</div>
-						<div class="col-sm-6"></div>
 					</div>
 				</div>
 			</section>

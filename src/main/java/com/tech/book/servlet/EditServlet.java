@@ -45,7 +45,6 @@ public class EditServlet extends HttpServlet {
 		Part part = request.getPart("updated_profile");
 		String updatedProfileName = part.getSubmittedFileName();
 		
-		System.out.print(updatedName);
 		//Get the user from the session
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("currentUser");   

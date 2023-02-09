@@ -4,8 +4,12 @@
 <%@ page import="com.tech.book.entities.Message"%>
 <%@ page import="com.tech.book.entities.User"%>
 <%@ page import="com.tech.book.entities.Category"%>
+<%@ page import="com.tech.book.entities.Comment"%>
 <%@ page import="com.tech.book.entities.Post"%>
 <%@ page import="com.tech.book.dao.PostDao"%>
+<%@ page import="com.tech.book.dao.UserDao"%>
+<%@ page import="com.tech.book.dao.CommentDao"%>
+<%@ page import="com.tech.book.dao.LikeDao"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ page errorPage="errorPage.jsp"%>
@@ -20,12 +24,19 @@ if (user == null) {
 PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 int pId = Integer.parseInt(request.getParameter("postId"));
 Post post = pdao.getPostByPostId(pId);
+UserDao udao = new UserDao(ConnectionProvider.getConnection());
+User pUser = udao.getUserByUserId(post.getUserId());
+%>
+<%
+CommentDao cmntdao = new CommentDao(ConnectionProvider.getConnection());
+List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title><%=post.getpTitle()%> || TechBlog</title>
+<link rel="icon" type="image/x-icon" href="img/techbook_icon.png">
 <!-- Botstrap cdn -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -36,9 +47,9 @@ Post post = pdao.getPostByPostId(pId);
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/index.css">
+
 </head>
 <body class="blog-bg">
-
 	<!-- Navbar -->
 
 	<nav class="navbar navbar-expand-md sticky-top primary-color">
@@ -88,35 +99,103 @@ Post post = pdao.getPostByPostId(pId);
 	<!--End of Navbar -->
 
 	<!-- Main Blog Content -->
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row my-4">
 			<div class="col-md-8 offset-md-2">
 				<div class="card">
-					<div class="card-header">
-						<h4><%=post.getpTitle()%></h4>
+					<div class="card-header primary-color">
+						<h4 class="post-title"><%=post.getpTitle()%></h4>
 					</div>
-					<div class="container-fluid">
-						<div class="card-body">
-							<div class="text-center">
-								<img src="blog_pics/<%=post.getpPic()%>"
-									class="img-fluid rounded-start" alt="blog_pic"
-									style="border-radius: 5px;">
+					<div class="card-body">
+						<div class="my-2 text-center">
+							<img src="blog_pics/<%=post.getpPic()%>"
+								class="img-fluid rounded-start" alt="blog_pic">
+						</div>
+						<div class="row my-3 row-user">
+							<div class="col-md-8">
+								<p class="post-user-info">
+									<a href="#!" style="text-decoration: none;"><%=pUser.getName()%></a>
+									has posted:
+								</p>
 							</div>
-							<div class="mt-4">
-								<p><%=post.getpContent()%></p>
-								<br> <br>
+							<div class="col-md-4">
+								<p class="card-text post-date">
+									<small><%=post.getpDate()%></small>
+							</div>
+						</div>
+						<div class="mt-4">
+							<p class="post-content"><%=post.getpContent()%></p>
+							<br> <br>
+							<div class="post-code">
 								<pre><%=post.getpCode()%></pre>
 							</div>
 						</div>
 					</div>
 					<div class="card-footer p-3 primary-color">
-						<a href="#!" class="btn btn-outline-light btn-sm"><i
-							class="fa fa-thumbs-o-up"></i><span>20</span></a> <a href="#!"
-							class="btn btn-outline-light btn-sm"><i
-							class="fa fa-commenting-o"></i><span>20</span></a>
-						<p class="card-text" style="float: right;">
-							<small><%=post.getpDate()%></small>
-						</p>
+						<!-- Like dao object -->
+						<%
+						LikeDao ldao = new LikeDao(ConnectionProvider.getConnection());
+						int lcount = ldao.getLikeOnPost(post.getpId());
+						%>
+						<a href="#!"
+							onClick="doLike(<%=post.getpId()%>,<%=user.getId()%>,this)"
+							class="btn btn-outline-light btn-sm"> <i
+							class="fa fa-thumbs-o-up"></i> <span class="like-counter"><%=lcount%></span>
+						</a> <a href="#!" class="btn btn-outline-light btn-sm"> <i
+							class="fa fa-commenting-o"></i> <span><%= cmntdao.getTotalCommentOnPost(post.getpId()) %></span>
+						</a>
+					</div>
+					<div class="card-footer">
+						<div class="cmnt-section">
+							<div class="row">
+								<form id="add-cmnt-form" action="CommentServlet" method="post">
+									<div class="col-md-12 form-group">
+										<textarea class="form-control" name="cmnt-content" rows="4"
+											placeholder="Leave your valuable comment here"></textarea>
+									</div>
+									<input type="hidden" name="pId" value="<%= post.getpId() %>" />
+									<input type="hidden" name="uId" value="<%= user.getId() %>" />
+									<div class="d-flex my-2 float-end">
+										<button type="submit" id="cmnt-submit-btn"
+											class="btn btn-outline-primary primary-color">Post</button>
+									</div>
+								</form>
+							</div>
+							<div class="row d-flex justify-content-center">
+								<div class="col-md-12">
+									<div class="card text-dark">
+										<div class="card-body mb-0">
+											<h4 class="mb-0">Recent comments</h4>
+											<p class="fw-light mb-4 pb-2">Latest Comments section by
+												users</p>
+										</div>
+
+										<%
+										for (Comment cmnt : cmntList) {
+											User cmntUser = udao.getUserByUserId(cmnt.getuId());
+										%>
+										<div class="card-body p-4">
+											<div class="d-flex flex-start">
+												<img class="rounded-circle shadow-1-strong me-3"
+													src="pics/<%= cmntUser.getProfile()%>"
+													alt="avatar" width="60" height="60" />
+												<div>
+													<h6 class="fw-bold mb-1"><%= cmntUser.getName() %></h6>
+													<div class="d-flex align-items-center mb-3">
+														<p class="mb-0"><%= cmnt.getCmntDate() %></p>
+													</div>
+													<p class="mb-0"><%= cmnt.getCmntContent() %></p>
+												</div>
+											</div>
+										</div>
+										<hr class="my-0" />
+										<%
+										}
+										%>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -126,7 +205,6 @@ Post post = pdao.getPostByPostId(pId);
 
 	<!-- Profile Modal -->
 
-	<!-- Modal -->
 	<div class="modal fade" id="profile-modal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -208,7 +286,7 @@ Post post = pdao.getPostByPostId(pId);
 									<tr>
 										<th>Profile :</th>
 										<td><input name="updated_profile" type="file"
-											class="form-control value="<%=user.getProfile()%>"></td>
+											class="form-control"></td>
 									</tr>
 								</table>
 								<div>
@@ -290,7 +368,7 @@ Post post = pdao.getPostByPostId(pId);
 			</div>
 		</div>
 	</div>
-
+	<div></div>
 	<!-- End of Post Modal -->
 
 
@@ -309,6 +387,8 @@ Post post = pdao.getPostByPostId(pId);
 		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="js/script.js"></script>
+	<!-- Editing profile -->
 	<script>
 		$(document).ready(function() {
 			let isEditable = false;
@@ -330,7 +410,7 @@ Post post = pdao.getPostByPostId(pId);
 	<!-- Add post Asynchroniously through javascript -->
 	<script>
 		$(document).ready(function() {
-			$("#add-post-form").on("submit", function(event) {
+			$('#add-post-form').on('submit', function(event) {
 				event.preventDefault();
 
 				let form = new FormData(this);
@@ -381,6 +461,28 @@ Post post = pdao.getPostByPostId(pId);
 			getPosts(0,allPostRef);
 		})
 	</script>
+	<!-- posting comment asynchronously -->
+		<script>
+		$(document).ready(function() {
+			$('#add-cmnt-form').on('submit', function(event) {
+				event.preventDefault();
 
+				let form = new FormData(this);
+				$.ajax({
+					url : 'CommentServlet',
+					type : 'POST',
+					data : form,
+					success : function(data, textStatus, jqXHR) {
+						console.log(data)
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						console.log(errorThrown)
+					},
+					processData : false,
+					contentType : false
+				})
+			})
+		});
+	</script>
 </body>
 </html>

@@ -84,13 +84,38 @@ text-white{
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
-/* show_blog_page.jsp page bg */
+/* show_blog_page.jsp page design */
 .blog-bg {
-	background-image: url('../img/blog_bg.jpeg');
+	/*background-image: url('../img/blog_bg.jpeg');*/
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
+.post-title{
+	font-weight:400;
+	letter-spacing:1px;
+	padding:5px;
+}
+.post-content{
+	font-weight:300;
+}
+.post-code{
+	font-weight:300;
+	padding:8px;
+	background-color:wheat;
+}
+.row-user{
+	border:1px solid #e2e2e2;
+	padding:15px;
+	padding-bottom:8px;
+}
 
+.post-user-info{
+	font-weight:300;
+}
+.post-date{
+	font-weight:500;
+	font-style:italic;
+}
 @media screen and (max-width:1000px) {
 	.poster {
 		height: 60vh;

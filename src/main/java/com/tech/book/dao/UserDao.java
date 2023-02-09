@@ -6,6 +6,7 @@ import java.sql.*;
 import javax.servlet.annotation.MultipartConfig;
 
 @MultipartConfig
+@SuppressWarnings("deprecation")
 public class UserDao {
 	private Connection con;
 	
@@ -31,7 +32,6 @@ public class UserDao {
 		}
 		return f;
 	}
-	@SuppressWarnings("deprecation")
 	public User getUserByEmailAndPassword(String email,String password) {
 		User user = null;
 		try {
@@ -83,4 +83,31 @@ public class UserDao {
 		return isUpdated;
 	}
 	
+
+	@SuppressWarnings("null")
+	public User getUserByUserId(int userId) {
+		User user = null;
+		try {
+			
+			String query = "select * from users where id=?";
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, userId);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				user = new User();
+				user.setId(userId);
+				user.setName(rs.getString("name"));
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setGender(rs.getString("gender"));
+				user.setAbout(rs.getString("about"));
+				user.setDateTime(rs.getTimestamp("rdate").toLocaleString());
+				user.setProfile(rs.getString("profile"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
 }
