@@ -370,29 +370,7 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 			})
 		});
 	</script>
-	<!-- loading post asynchronously -->
-	<script>
-		function getPosts(id,temp,isUser){
-			$("#loader").show();
-			$("#postContainer").hide();
-			
-			$(".c-link").removeClass('active');
-			
-			$.ajax({
-				url: "loadPosts.jsp",
-				data: {id:id,isUser:isUser},
-				success: function(data, textStatus, jqXHR){
-					$("#loader").hide();
-					$("#postContainer").show();
-					$("#postContainer").html(data);
-					$(temp).addClass('active');
-				}
-			})
-		}
-		$(document).ready(function(){
-			let allPostRef = $(".c-link")[0];
-			getPosts(0,allPostRef,false);
-		})
-	</script>
+	<!-- loading post asynchronously in script.js -->
+
 </body>
 </html>

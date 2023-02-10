@@ -83,4 +83,20 @@ public class CommentDao {
 		
 		return totalCmnt;
 	}
+
+	public boolean deleteComment(int cmntId) {
+		boolean isDeleted = false;
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement("delete from comment where cmntId=?");
+			pstmt.setInt(1, cmntId);
+			pstmt.executeUpdate();
+			isDeleted = true;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return isDeleted;
+	}
+
 }

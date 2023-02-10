@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.tech.book.dao.CommentDao;
 import com.tech.book.helper.ConnectionProvider;
 
-@WebServlet("/CommentServlet")
-@MultipartConfig
-public class CommentServlet extends HttpServlet {
+@WebServlet("/DeleteCommentServlet")
+public class DeleteCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public CommentServlet() {
+    public DeleteCommentServlet() {
         super();
     }
 
@@ -26,13 +24,14 @@ public class CommentServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
-		String comment = request.getParameter("cmnt-content");
-		int pId = Integer.parseInt(request.getParameter("pId"));
-		int uId = Integer.parseInt(request.getParameter("uId"));
-		out.println("done");
+		int cmntId = Integer.parseInt(request.getParameter("cmntId"));
+		
 		CommentDao cmntdao = new CommentDao(ConnectionProvider.getConnection());
-		cmntdao.insertComment(comment, pId, uId);
-		cmntdao.deleteComment(12);
+		boolean isDeleted = cmntdao.deleteComment(cmntId);
+		if(isDeleted) {
+			out.println("done");
+		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

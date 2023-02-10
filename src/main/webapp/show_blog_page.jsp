@@ -142,7 +142,7 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 							class="btn btn-outline-light btn-sm"> <i
 							class="fa fa-thumbs-o-up"></i> <span class="like-counter"><%=lcount%></span>
 						</a> <a href="#!" class="btn btn-outline-light btn-sm"> <i
-							class="fa fa-commenting-o"></i> <span><%= cmntdao.getTotalCommentOnPost(post.getpId()) %></span>
+							class="fa fa-commenting-o"></i> <span><%=cmntdao.getTotalCommentOnPost(post.getpId())%></span>
 						</a>
 					</div>
 					<div class="card-footer">
@@ -150,11 +150,11 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 							<div class="row">
 								<form id="add-cmnt-form" action="CommentServlet" method="post">
 									<div class="col-md-12 form-group">
-										<textarea class="form-control" name="cmnt-content" rows="4"
+										<textarea id="inputComment" class="form-control" name="cmnt-content" rows="4"
 											placeholder="Leave your valuable comment here"></textarea>
 									</div>
-									<input type="hidden" name="pId" value="<%= post.getpId() %>" />
-									<input type="hidden" name="uId" value="<%= user.getId() %>" />
+									<input type="hidden" name="pId" value="<%=post.getpId()%>" />
+									<input type="hidden" name="uId" value="<%=user.getId()%>" />
 									<div class="d-flex my-2 float-end">
 										<button type="submit" id="cmnt-submit-btn"
 											class="btn btn-outline-primary primary-color">Post</button>
@@ -177,14 +177,21 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 										<div class="card-body p-4">
 											<div class="d-flex flex-start">
 												<img class="rounded-circle shadow-1-strong me-3"
-													src="pics/<%= cmntUser.getProfile()%>"
-													alt="avatar" width="60" height="60" />
+													src="pics/<%=cmntUser.getProfile()%>" alt="avatar"
+													width="60" height="60" />
 												<div>
-													<h6 class="fw-bold mb-1"><%= cmntUser.getName() %></h6>
+													<h6 class="fw-bold mb-1"><%=cmntUser.getName()%></h6>
 													<div class="d-flex align-items-center mb-3">
-														<p class="mb-0"><%= cmnt.getCmntDate() %></p>
+														<p class="mb-0"><%=cmnt.getCmntDate()%></p>
 													</div>
-													<p class="mb-0"><%= cmnt.getCmntContent() %></p>
+													<p class="mb-0"><%=cmnt.getCmntContent()%></p>
+													<%
+														if(cmntUser.getId()==user.getId()){
+													%>
+													<a href="#!" style="text-decoration:none;" onClick="deleteComment(<%= cmnt.getCmntId() %>)">Delete</a>
+													<%
+														}
+													%>
 												</div>
 											</div>
 										</div>
@@ -388,6 +395,7 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="js/script.js"></script>
+	
 	<!-- Editing profile -->
 	<script>
 		$(document).ready(function() {
@@ -437,52 +445,8 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 			})
 		});
 	</script>
-	<!-- loading post asynchronously -->
-	<script>
-		function getPosts(id,temp,isUser){
-			$("#loader").show();
-			$("#postContainer").hide();
-			
-			$(".c-link").removeClass('active');
-			
-			$.ajax({
-				url: "loadPosts.jsp",
-				data: {id:id,isUser:isUser},
-				success: function(data, textStatus, jqXHR){
-					$("#loader").hide();
-					$("#postContainer").show();
-					$("#postContainer").html(data);
-					$(temp).addClass('active');
-				}
-			})
-		}
-		$(document).ready(function(){
-			let allPostRef = $(".c-link")[0];
-			getPosts(0,allPostRef);
-		})
-	</script>
-	<!-- posting comment asynchronously -->
-		<script>
-		$(document).ready(function() {
-			$('#add-cmnt-form').on('submit', function(event) {
-				event.preventDefault();
+	
+	<!-- posting comment asynchronously in script.js-->
 
-				let form = new FormData(this);
-				$.ajax({
-					url : 'CommentServlet',
-					type : 'POST',
-					data : form,
-					success : function(data, textStatus, jqXHR) {
-						console.log(data)
-					},
-					error : function(jqXHR, textStatus, errorThrown) {
-						console.log(errorThrown)
-					},
-					processData : false,
-					contentType : false
-				})
-			})
-		});
-	</script>
 </body>
 </html>

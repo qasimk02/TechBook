@@ -17,8 +17,9 @@ import com.tech.book.helper.ConnectionProvider;
 /**
  * Servlet implementation class RegisterServlet
  */
-@MultipartConfig
+
 @WebServlet("/RegisterServlet")
+@MultipartConfig
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
