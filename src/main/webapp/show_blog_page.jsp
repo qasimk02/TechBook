@@ -131,74 +131,91 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 							</div>
 						</div>
 					</div>
-					<div class="card-footer p-3 primary-color">
-						<!-- Like dao object -->
-						<%
-						LikeDao ldao = new LikeDao(ConnectionProvider.getConnection());
-						int lcount = ldao.getLikeOnPost(post.getpId());
-						%>
-						<a href="#!"
-							onClick="doLike(<%=post.getpId()%>,<%=user.getId()%>,this)"
-							class="btn btn-outline-light btn-sm"> <i
-							class="fa fa-thumbs-o-up"></i> <span class="like-counter"><%=lcount%></span>
-						</a> <a href="#!" class="btn btn-outline-light btn-sm"> <i
-							class="fa fa-commenting-o"></i> <span><%=cmntdao.getTotalCommentOnPost(post.getpId())%></span>
-						</a>
-					</div>
-					<div class="card-footer">
-						<div class="cmnt-section">
-							<div class="row">
-								<form id="add-cmnt-form" action="CommentServlet" method="post">
-									<div class="col-md-12 form-group">
-										<textarea id="inputComment" class="form-control" name="cmnt-content" rows="4"
-											placeholder="Leave your valuable comment here"></textarea>
-									</div>
-									<input type="hidden" name="pId" value="<%=post.getpId()%>" />
-									<input type="hidden" name="uId" value="<%=user.getId()%>" />
-									<div class="d-flex my-2 float-end">
-										<button type="submit" id="cmnt-submit-btn"
-											class="btn btn-outline-primary primary-color">Post</button>
-									</div>
-								</form>
-							</div>
-							<div class="row d-flex justify-content-center">
-								<div class="col-md-12">
-									<div class="card text-dark">
-										<div class="card-body mb-0">
-											<h4 class="mb-0">Recent comments</h4>
-											<p class="fw-light mb-4 pb-2">Latest Comments section by
-												users</p>
-										</div>
 
-										<%
-										for (Comment cmnt : cmntList) {
-											User cmntUser = udao.getUserByUserId(cmnt.getuId());
-										%>
-										<div class="card-body p-4">
-											<div class="d-flex flex-start">
-												<img class="rounded-circle shadow-1-strong me-3"
-													src="pics/<%=cmntUser.getProfile()%>" alt="avatar"
-													width="60" height="60" />
-												<div>
-													<h6 class="fw-bold mb-1"><%=cmntUser.getName()%></h6>
-													<div class="d-flex align-items-center mb-3">
-														<p class="mb-0"><%=cmnt.getCmntDate()%></p>
-													</div>
-													<p class="mb-0"><%=cmnt.getCmntContent()%></p>
-													<%
-														if(cmntUser.getId()==user.getId()){
-													%>
-													<a href="#!" style="text-decoration:none;" onClick="deleteComment(<%= cmnt.getCmntId() %>)">Delete</a>
-													<%
+					<div id="reload">
+						<div class="card-footer p-1 primary-color">
+							<!-- Like dao object -->
+							<%
+							LikeDao ldao = new LikeDao(ConnectionProvider.getConnection());
+							int lcount = ldao.getLikeOnPost(post.getpId());
+							%>
+							<p onClick="doLike(<%=post.getpId()%>,<%=user.getId()%>,this)"
+								class="btn btn-outline-light btn-sm">
+								<%
+								if (ldao.isLikedByUser(post.getpId(), user.getId())) {
+								%>
+								<i class="fa fa-thumbs-o-down"></i>
+								<%
+								} else {
+								%>
+								<i class="fa fa-thumbs-o-up"></i>
+								<%
+								}
+								%>
+								<span class="like-counter"><%=lcount%></span>
+							</p>
+							<p class="btn btn-outline-light btn-sm">
+								<i class="fa fa-commenting-o"></i> <span><%=cmntdao.getTotalCommentOnPost(post.getpId())%></span>
+							</p>
+						</div>
+						<div class="card-footer">
+							<div class="cmnt-section">
+								<div class="row">
+									<form id="add-cmnt-form" action="CommentServlet" method="post">
+										<div class="col-md-12 form-group">
+											<textarea id="inputComment" class="form-control"
+												name="cmnt-content" rows="4"
+												placeholder="Leave your valuable comment here"></textarea>
+										</div>
+										<input type="hidden" name="pId" value="<%=post.getpId()%>" />
+										<input type="hidden" name="uId" value="<%=user.getId()%>" />
+										<div class="d-flex my-2 float-end">
+											<button type="submit" id="cmnt-submit-btn"
+												onClick="addComment()"
+												class="btn btn-outline-primary primary-color">Post</button>
+										</div>
+									</form>
+								</div>
+								<div class="row d-flex justify-content-center">
+									<div class="col-md-12">
+										<div class="card text-dark">
+											<div class="card-body mb-0">
+												<h4 class="mb-0">Recent comments</h4>
+												<p class="fw-light mb-4 pb-2">Latest Comments section by
+													users</p>
+											</div>
+
+											<%
+											for (Comment cmnt : cmntList) {
+												User cmntUser = udao.getUserByUserId(cmnt.getuId());
+											%>
+											<div class="card-body p-4">
+												<div class="d-flex flex-start">
+													<img class="rounded-circle shadow-1-strong me-3"
+														src="pics/<%=cmntUser.getProfile()%>" alt="avatar"
+														width="60" height="60" />
+													<div>
+														<h6 class="fw-bold mb-1"><%=cmntUser.getName()%></h6>
+														<div class="d-flex align-items-center mb-3">
+															<p class="mb-0"><%=cmnt.getCmntDate()%></p>
+														</div>
+														<p class="mb-0"><%=cmnt.getCmntContent()%></p>
+														<%
+														if (cmntUser.getId() == user.getId()) {
+														%>
+														<a href="#!" style="text-decoration: none;"
+															onClick="deleteComment(<%=cmnt.getCmntId()%>)">Delete</a>
+														<%
 														}
-													%>
+														%>
+													</div>
 												</div>
 											</div>
+											<hr class="my-0" />
+											<%
+											}
+											%>
 										</div>
-										<hr class="my-0" />
-										<%
-										}
-										%>
 									</div>
 								</div>
 							</div>
@@ -395,7 +412,7 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="js/script.js"></script>
-	
+
 	<!-- Editing profile -->
 	<script>
 		$(document).ready(function() {
@@ -445,7 +462,7 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 			})
 		});
 	</script>
-	
+
 	<!-- posting comment asynchronously in script.js-->
 
 </body>

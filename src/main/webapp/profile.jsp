@@ -84,7 +84,7 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 	</nav>
 
 	<!--End of Navbar -->
-	
+
 	<!-- Showing message on updating profile -->
 	<%
 	Message msg = (Message) session.getAttribute("msg");
@@ -108,10 +108,10 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 				<div class="list-group">
 					<a href="#" onClick="getPosts(0,this,false)"
 						class="c-link list-group-item list-group-item-action active">
-						All Posts</a> 
-						<a href="#" onClick="getPosts(<%=user.getId()%>,this,true)"
-						class="c-link list-group-item list-group-item-action">
-						My Posts</a>
+						All Posts</a> <a href="#"
+						onClick="getPosts(<%=user.getId()%>,this,true)"
+						class="c-link list-group-item list-group-item-action"> My
+						Posts</a>
 					<%
 					ArrayList<Category> list = pdao.getAllCategories();
 					for (Category cc : list) {
@@ -126,6 +126,7 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 
 			<!-- second col -->
 			<!-- blogs details -->
+
 			<div class="col-md-9">
 				<div class="container text-center" id="loader">
 					<i class="fa fa-refresh fa-4x fa-spin"></i>
@@ -337,7 +338,7 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 					$(this).text("Edit");
 					isEditable = false;
 				}
-			})
+			})  
 		})
 	</script>
 	<!-- Add post Asynchroniously through javascript -->

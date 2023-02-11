@@ -29,7 +29,27 @@ public class LikeDao {
 
 		return isLiked;
 	}
+	
+	public boolean deleteLike(int pid, int uid) {
+		boolean isDislikeLiked = false;
 
+		try {
+
+			String query = "delete from liked where postId=? and userId=?";
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pid);
+			pstmt.setInt(2, uid);
+
+			pstmt.executeUpdate();
+
+			isDislikeLiked = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return isDislikeLiked;
+	}
+	
 	public int getLikeOnPost(int pid) {
 		int lcount = 0;
 
@@ -55,7 +75,7 @@ public class LikeDao {
 		boolean isLiked = false;
 
 		try {
-			PreparedStatement pstmt = con.prepareStatement("select * from liked where pid=? and uid=?");
+			PreparedStatement pstmt = con.prepareStatement("select * from liked where postId=? and userId=?");
 			pstmt.setInt(1, pid);
 			pstmt.setInt(2, uid);
 			

@@ -26,13 +26,19 @@ public class LikeServlet extends HttpServlet {
 		
 		int uid = Integer.parseInt(request.getParameter("uid"));
 		int pid = Integer.parseInt(request.getParameter("pid"));
-		String operation = request.getParameter("operation");
 		
 		//Making object of LikeDao
 		LikeDao ldao = new LikeDao(ConnectionProvider.getConnection());
-		if(operation.equals("like")) {
+		if(!ldao.isLikedByUser(pid, uid)) {
 			boolean isLiked = ldao.insertLike(pid, uid);
-			out.println(isLiked);
+			if(isLiked) {
+				out.println("liked");
+			}
+		}else {
+			boolean isDisLiked = ldao.deleteLike(pid, uid);
+			if(isDisLiked) {
+				out.println("disliked");
+			}
 		}
 	}
 

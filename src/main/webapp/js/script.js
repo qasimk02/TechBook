@@ -1,29 +1,30 @@
 
 //deleting comment asynchroniously
-function deleteComment(cmntId){
-	const data = {cmntId:cmntId};
+function deleteComment(cmntId) {
+	const data = { cmntId: cmntId };
 	$.ajax({
 		url: 'DeleteCommentServlet',
-		method:'POST',
-		data:data,
-		success:function(data,textStatus,jqXHR){
-			if(data.trim()==="done"){
-				window.location.reload();
+		method: 'POST',
+		data: data,
+		success: function(data, textStatus, jqXHR) {
+			if (data.trim() === "done") {
+				//window.location.reload(); reload the entire page
+				$("#reload").load(location.href + " #reload");
 			}
 		},
-		error:function(jqXHR,textStatus,errorThrown){
+		error: function(jqXHR, textStatus, errorThrown) {
 			console.log(errorThrown);
 		}
 	})
 }
 
 //adding comment asynchroniously
-$(document).ready(function() {
+//$(document).ready(function() {
+function addComment() {
 	$('#add-cmnt-form').on('submit', function(event) {
 		event.preventDefault();
 
 		let form = new FormData(this);
-		//let form = $(this).serialize();
 		$.ajax({
 			url: 'CommentServlet',
 			type: 'POST',
@@ -31,7 +32,8 @@ $(document).ready(function() {
 			success: function(data, textStatus, jqXHR) {
 				if (data.trim() === "done") {
 					//window.location.reload();
-					history.go(0);
+					//history.go(0);
+					$("#reload").load(location.href + " #reload");
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -41,7 +43,8 @@ $(document).ready(function() {
 			contentType: false
 		})
 	})
-});
+}
+//});
 
 
 //loading post asynchronously 
@@ -50,7 +53,6 @@ function getPosts(id, temp, isUser) {
 	$("#postContainer").hide();
 
 	$(".c-link").removeClass('active');
-
 	$.ajax({
 		url: "loadPosts.jsp",
 		data: { id: id, isUser: isUser },
@@ -64,15 +66,14 @@ function getPosts(id, temp, isUser) {
 }
 $(document).ready(function() {
 	let allPostRef = $(".c-link")[0];
-	getPosts(0, allPostRef);
+	getPosts(0, allPostRef, false);
 })
 
 //adding like
 function doLike(pid, uid, clickedClass) {
 	const data = {
 		pid: pid,
-		uid: uid,
-		operation: "like"
+		uid: uid
 	}
 
 	$.ajax({
@@ -80,10 +81,17 @@ function doLike(pid, uid, clickedClass) {
 		type: "post",
 		data: data,
 		success: function(data, textStatus, jqXHR) {
-			if (data.trim("true")) {
+			clickedClass.getElementsByTagName("i")[0].classList.toggle("fa-thumbs-down");
+			if (data.trim() === "liked") {
 				let c = clickedClass.getElementsByClassName('like-counter')[0];
 				let nLike = c.innerHTML;
 				nLike++;
+				c.innerHTML = nLike;
+
+			} else if (data.trim() === "disliked") {
+				let c = clickedClass.getElementsByClassName('like-counter')[0];
+				let nLike = c.innerHTML;
+				nLike--;
 				c.innerHTML = nLike;
 			}
 		},

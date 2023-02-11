@@ -56,11 +56,24 @@ CommentDao cmntdao = new CommentDao(ConnectionProvider.getConnection());
 					LikeDao ldao = new LikeDao(ConnectionProvider.getConnection());
 					int lcount = ldao.getLikeOnPost(post.getpId());
 					%>
-					<a href="#!" onClick="doLike(<%=post.getpId()%>,<%=user.getId()%>,this)"
-						class="btn btn-outline-primary btn-sm"><i
-						class="fa fa-thumbs-o-up"></i> <span class="like-counter"><%=lcount%></span></a> <a
-						href="#!" class="btn btn-outline-primary btn-sm"><i
-						class="fa fa-commenting-o"></i> <span><%= cmntdao.getTotalCommentOnPost(post.getpId()) %></span></a>
+					<p onClick="doLike(<%=post.getpId()%>,<%=user.getId()%>,this)"
+						class="btn btn-outline-primary btn-sm">
+						<%
+						if (ldao.isLikedByUser(post.getpId(), user.getId())) {
+						%>
+						<i class="fa fa-thumbs-o-down"></i>
+						<%
+						} else {
+						%>
+						<i class="fa fa-thumbs-o-up"></i>
+						<%
+						}
+						%>
+						<span class="like-counter"><%=lcount%></span>
+					</p>
+					<p class="btn btn-outline-primary btn-sm">
+						<i class="fa fa-commenting-o"></i> <span><%=cmntdao.getTotalCommentOnPost(post.getpId())%></span>
+					</p>
 					<p class="card-text" style="float: right;">
 						<small class="text-muted"><%=post.getpDate()%></small>
 					</p>
