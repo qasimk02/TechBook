@@ -108,7 +108,7 @@ List<Comment> cmntList = cmntdao.getAllCommentByPostId(post.getpId());
 					</div>
 					<div class="card-body">
 						<div class="my-2 text-center">
-							<img src="blog_pics/<%=post.getpPic()%>"
+							<img width="100%" src="blog_pics/<%=post.getpPic()%>"
 								class="img-fluid rounded-start" alt="blog_pic">
 						</div>
 						<div class="row my-3 row-user">

@@ -36,7 +36,7 @@ CommentDao cmntdao = new CommentDao(ConnectionProvider.getConnection());
 
 	<div class="row">
 		<div class="col-md-3">
-			<img src="blog_pics/<%=post.getpPic()%>"
+			<img width="100%" src="blog_pics/<%=post.getpPic()%>"
 				class="img-fluid rounded-start" alt="blog_pic">
 		</div>
 		<div class="col-md-9">
