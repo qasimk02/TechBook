@@ -38,7 +38,6 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 <body>
 
 	<!-- Navbar -->
-
 	<nav class="navbar navbar-expand-md sticky-top primary-color">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="index.jsp"><i class="fa fa-book"></i>
@@ -82,7 +81,6 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 			</div>
 		</div>
 	</nav>
-
 	<!--End of Navbar -->
 
 	<!-- Showing message on updating profile -->
@@ -117,7 +115,7 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 					for (Category cc : list) {
 					%>
 					<a href="#" onClick="getPosts(<%=cc.getcId()%>,this,false)"
-						class="c-link list-group-item list-group-item-action"><%=cc.getcName()%></a>
+						class="c-link list-group-item list-group-item-action"><%=cc.getcName().toUpperCase()%></a>
 					<%
 					}
 					%>
@@ -272,7 +270,7 @@ PostDao pdao = new PostDao(ConnectionProvider.getConnection());
 								<%
 								for (Category c : list) {
 								%>
-								<option value="<%=c.getcId()%>"><%=c.getcName()%></option>
+								<option value="<%=c.getcId()%>"><%=c.getcName().toUpperCase()%></option>
 								<%
 								}
 								%>

@@ -122,8 +122,8 @@
 			</div>
 		</div>
 	</div>
+	
 	<!-- footer -->
-
 	<div class="mt-5">
 		<footer class="nb-footer primary-color" style="padding: 10px;">
 			<div class="row">

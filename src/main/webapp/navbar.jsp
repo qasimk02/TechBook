@@ -1,3 +1,16 @@
+<%@ page import="com.tech.book.helper.ConnectionProvider"%>
+<%@ page import="com.tech.book.entities.Message"%>
+<%@ page import="com.tech.book.entities.Category"%>
+<%@ page import="com.tech.book.entities.Post"%>
+<%@ page import="com.tech.book.dao.PostDao"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+
+<!-- getting postdao object which is used at multiple places in this page-->
+<%
+PostDao pdao = new PostDao(ConnectionProvider.getConnection());
+%>
+
 <nav class="navbar navbar-expand-md sticky-top primary-color">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.jsp"><i class="fa fa-book"></i> Tech<span style="color:red;">B</span>ook</a>
@@ -17,9 +30,16 @@
             <i class="fa fa-tasks"></i> Categories
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Languages</a></li>
-            <li><a class="dropdown-item" href="#">Updates</a></li>
-            <li><a class="dropdown-item" href="#">DataStructures</a></li>
+          
+          
+          	<%
+				ArrayList<Category> list = pdao.getAllCategories();
+				for (Category cc : list) {
+				%>
+				<li><a class="dropdown-item" href="/TechBook/profile.jsp"><%=cc.getcName().toUpperCase()%></a></li>
+				<%
+				}
+			%>
           </ul>
         </li>
         <li class="nav-item">
